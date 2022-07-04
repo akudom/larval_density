@@ -38,21 +38,9 @@ long_data <- input_data %>%
                names_to = 'stat_type', values_to = 'value')
 
 # make a simple pair of violin plots to show summary stats
-violins <- ggplot(long_data, aes(x = Species, y = value, fill = Species)) +
-  geom_violin() +
-  theme_bw() +
-  theme(legend.position = 'bottom',
-        text = element_text(size = 20)) +
-  scale_fill_viridis_d() +
-  facet_grid(stat_type ~ larval_density, 
-             switch = 'y')
-ggsave(filename = 'figures/violinplot.pdf',
-       violins)
-
-scatter <- ggplot(long_data, 
-                  aes(x = larval_density, y = value, colour = Species))+ 
-  geom_point(position = 'jitter') + 
-  geom_smooth(method = 'lm') + 
+violins <- ggplot(long_data, 
+                  aes(x = factor(larval_density), y = value, colour = Species))+ 
+  geom_violin() + 
   facet_wrap(. ~ stat_type, strip.position = 'left') + 
   theme_bw() +
   theme(legend.position = 'bottom',
@@ -61,21 +49,36 @@ scatter <- ggplot(long_data,
         text = element_text(size = 20)) +
   scale_colour_viridis_d() +
   ylab(element_blank()) +
-  xlab('Larval density')
+  xlab('Larval density (number of larvae per enclosure)')
+ggsave(filename = 'figures/violinplot.pdf',
+       violins)
 
-scatter
-ggsave(filename = 'figures/scatterplot.pdf', scatter)
+box_plot <- ggplot(long_data, 
+                  aes(x = factor(larval_density), y = value, colour = Species))+ 
+  geom_boxplot() +
+  facet_wrap(. ~ stat_type, strip.position = 'left') + 
+  theme_bw() +
+  theme(legend.position = 'bottom',
+        strip.background = element_blank(),
+        strip.placement = "outside",
+        text = element_text(size = 20)) +
+  scale_colour_viridis_d() +
+  ylab(element_blank()) +
+  xlab('Larval density (number of larvae per enclosure)')
+
+box_plot
+ggsave(filename = 'figures/boxplot.pdf', box_plot)
+
+
 # Model -------------------------------------------------------------------
 
 
 pupation_model <- lmer(formula = period_of_pupation_day ~ 1 + (1|species) + 
-                         larval_density,
-     data = input_data)
+                         (1|larval_density), data = input_data)
 
 summary(pupation_model)
 
 eclosion_model <- lmer(formula = period_of_eclosion_day ~ 1 + (1|species) + 
-                         larval_density,
-                       data = input_data)
+                         (1|larval_density), data = input_data)
 
 summary(eclosion_model)
