@@ -6,6 +6,7 @@ library(lme4)
 library(lmerTest)
 library(readxl)
 library(janitor)
+library(broom.mixed)
 
 # read in data
 input_data <- read_excel('data/raw_data/Data_density dependent.xlsx') %>% 
@@ -19,8 +20,8 @@ input_data <- read_excel('data/raw_data/Data_density dependent.xlsx') %>%
         period_of_eclosion_day = gsub('N/A', NA, period_of_eclosion_day),
         # convert period_of_adult_pupation_day from character to numeric
         period_of_eclosion_day = as.numeric(period_of_eclosion_day),
-        # make species entirely lowercase, as it's currently mixed 
-        species = tolower(species),
+        # make first character of species capitalised, as it's currently mixed 
+        species = str_to_title(species),
     sample_replicate = paste(date_of_experiment, replicate_no, sep = '_'),
     replicate_no = as.character(replicate_no),
     date_of_experiment = as.character(date_of_experiment))
@@ -37,7 +38,11 @@ long_data <- input_data %>%
          `Days until eclosion` = period_of_eclosion_day,
          Species = species) %>%
   pivot_longer(c(`Days until pupation`, `Days until eclosion`), 
-               names_to = 'stat_type', values_to = 'value')
+               names_to = 'stat_type', values_to = 'value') %>%
+  # reverse the factor order of stat_type, as by default it 
+  # plots alphabetically (eclosion before pupation) and 
+  # thats a bit confusing
+  mutate(stat_type = fct_rev(stat_type))
 
 # make a simple pair of violin plots to show summary stats
 violins <- ggplot(long_data, 
@@ -74,7 +79,7 @@ ggsave(filename = 'figures/boxplot.pdf', box_plot)
 
 # Model -------------------------------------------------------------------
 
-
+# pupation
 pupation_model_kisumu <- glmer(formula = period_of_pupation_day ~ larval_density +
                           (1|sample_replicate),
                         data = filter(input_data, species == 'kisumu'),
@@ -84,6 +89,17 @@ summary(pupation_model_kisumu)
 qqnorm(resid(pupation_model_kisumu)) 
 qqline(resid(pupation_model_kisumu), col = "red")
 
+pupation_model_opeibea <- glmer(formula = period_of_pupation_day ~ larval_density +
+                                 (1|sample_replicate),
+                               data = filter(input_data, species == 'opeibea'),
+                               family = 'poisson')
+
+summary(pupation_model_opeibea)
+qqnorm(resid(pupation_model_opeibea)) 
+qqline(resid(pupation_model_opeibea), col = "red")
+
+# eclosion
+
 eclosion_model_kisumu <- glmer(formula = period_of_eclosion_day ~ larval_density +
                                  (1|sample_replicate),
                                data = filter(input_data, species == 'kisumu'),
@@ -92,3 +108,13 @@ eclosion_model_kisumu <- glmer(formula = period_of_eclosion_day ~ larval_density
 summary(eclosion_model_kisumu)
 qqnorm(resid(eclosion_model_kisumu)) 
 qqline(resid(eclosion_model_kisumu), col = "red")
+
+eclosion_model_opeibea <- glmer(formula = period_of_eclosion_day ~ larval_density +
+                                 (1|sample_replicate),
+                               data = filter(input_data, species == 'opeibea'),
+                               family = 'poisson')
+
+summary(eclosion_model_opeibea)
+qqnorm(resid(eclosion_model_opeibea)) 
+qqline(resid(eclosion_model_opeibea), col = "red")
+
