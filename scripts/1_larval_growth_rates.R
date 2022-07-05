@@ -62,7 +62,7 @@ violins <- ggplot(long_data,
   scale_colour_viridis_d() +
   ylab(element_blank()) +
   xlab('Larval density (number of larvae per enclosure)')
-ggsave(filename = 'figures/violinplot.pdf',
+ggsave(filename = 'figures/growthrates/violinplot.pdf',
        violins)
 
 box_plot <- ggplot(long_data, 
@@ -79,7 +79,7 @@ box_plot <- ggplot(long_data,
   xlab('Larval density (number of larvae per enclosure)')
 
 box_plot
-ggsave(filename = 'figures/boxplot.pdf', box_plot)
+ggsave(filename = 'figures/growthrates/boxplot.pdf', box_plot)
 
 
 # Model -------------------------------------------------------------------
@@ -128,22 +128,22 @@ qqline(resid(eclosion_model_opeibea), col = "red")
 
 # this is ugly as hell, improve it sometime Dave
 tidy(pupation_model_opeibea) %>%
-  write_csv('results/opeibea_pupation_tidy.csv')
+  write_csv('results/growthrates/opeibea_pupation_tidy.csv')
 glance(pupation_model_opeibea) %>%
-  write_csv('results/opeibea_pupation_glance.csv')
+  write_csv('results/growthrates/opeibea_pupation_glance.csv')
 
 tidy(pupation_model_kisumu) %>%
-  write_csv('results/kisumu_pupation_tidy.csv')
+  write_csv('results/growthrates/kisumu_pupation_tidy.csv')
 glance(pupation_model_kisumu) %>%
-  write_csv('results/kisumu_pupation_glance.csv')
+  write_csv('results/growthrates/kisumu_pupation_glance.csv')
 
 
 tidy(eclosion_model_opeibea) %>%
-  write_csv('results/opeibea_eclosion_tidy.csv')
+  write_csv('results/growthrates/opeibea_eclosion_tidy.csv')
 glance(eclosion_model_opeibea) %>%
-  write_csv('results/opeibea_eclosion_glance.csv')
+  write_csv('results/growthrates/opeibea_eclosion_glance.csv')
 
 tidy(eclosion_model_kisumu) %>%
-  write_csv('results/kisumu_eclosion_tidy.csv')
+  write_csv('results/growthrates/kisumu_eclosion_tidy.csv')
 glance(eclosion_model_kisumu) %>%
-  write_csv('results/kisumu_eclosion_glance.csv')
+  write_csv('results/growthrates/kisumu_eclosion_glance.csv')
