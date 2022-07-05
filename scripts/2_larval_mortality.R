@@ -8,6 +8,7 @@
 
 library(tidyverse)
 library(lme4)
+library(broom.mixed)
 larval_df <- read_csv('data/processed_data/density_and_growth.csv')
 
 str(larval_df)
@@ -102,3 +103,10 @@ survival_mod = glmer(formula = binary_survived ~ larval_density_fct + Species +
              data = long_df,
              family = 'binomial')
 summary(survival_mod)
+
+
+tidy(survival_mod) %>%
+  write_csv('results/survival/survival_tidy.csv')
+
+glance(survival_mod) %>%
+  write_csv('results/survival/survival_glance.csv')
