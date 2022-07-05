@@ -82,7 +82,7 @@ ggsave(filename = 'figures/boxplot.pdf', box_plot)
 # pupation
 pupation_model_kisumu <- glmer(formula = period_of_pupation_day ~ larval_density +
                           (1|sample_replicate),
-                        data = filter(input_data, species == 'kisumu'),
+                        data = filter(input_data, species == 'Kisumu'),
                         family = 'poisson')
 
 summary(pupation_model_kisumu)
@@ -91,7 +91,7 @@ qqline(resid(pupation_model_kisumu), col = "red")
 
 pupation_model_opeibea <- glmer(formula = period_of_pupation_day ~ larval_density +
                                  (1|sample_replicate),
-                               data = filter(input_data, species == 'opeibea'),
+                               data = filter(input_data, species == 'Opeibea'),
                                family = 'poisson')
 
 summary(pupation_model_opeibea)
@@ -102,7 +102,7 @@ qqline(resid(pupation_model_opeibea), col = "red")
 
 eclosion_model_kisumu <- glmer(formula = period_of_eclosion_day ~ larval_density +
                                  (1|sample_replicate),
-                               data = filter(input_data, species == 'kisumu'),
+                               data = filter(input_data, species == 'Kisumu'),
                                family = 'poisson')
 
 summary(eclosion_model_kisumu)
@@ -111,10 +111,34 @@ qqline(resid(eclosion_model_kisumu), col = "red")
 
 eclosion_model_opeibea <- glmer(formula = period_of_eclosion_day ~ larval_density +
                                  (1|sample_replicate),
-                               data = filter(input_data, species == 'opeibea'),
+                               data = filter(input_data, species == 'Opeibea'),
                                family = 'poisson')
 
 summary(eclosion_model_opeibea)
 qqnorm(resid(eclosion_model_opeibea)) 
 qqline(resid(eclosion_model_opeibea), col = "red")
 
+
+# Make summary tables of models -------------------------------------------
+
+# this is ugly as hell, improve it sometime Dave
+tidy(pupation_model_opeibea) %>%
+  write_csv('results/opeibea_pupation_tidy.csv')
+glance(pupation_model_opeibea) %>%
+  write_csv('results/opeibea_pupation_glance.csv')
+
+tidy(pupation_model_kisumu) %>%
+  write_csv('results/kisumu_pupation_tidy.csv')
+glance(pupation_model_kisumu) %>%
+  write_csv('results/kisumu_pupation_glance.csv')
+
+
+tidy(eclosion_model_opeibea) %>%
+  write_csv('results/opeibea_eclosion_tidy.csv')
+glance(eclosion_model_opeibea) %>%
+  write_csv('results/opeibea_eclosion_glance.csv')
+
+tidy(eclosion_model_kisumu) %>%
+  write_csv('results/kisumu_eclosion_tidy.csv')
+glance(eclosion_model_kisumu) %>%
+  write_csv('results/kisumu_eclosion_glance.csv')
