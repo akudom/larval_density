@@ -96,7 +96,7 @@ long_df <- bind_rows(larval_list) %>%
   mutate(binary_survived = ifelse(survival == 'survived', 1, 0),
          grouping_var = paste(date_of_experiment, replicate_no, sep = '_'))
 
-write_csv(long_df, 'data/processed_data/2_survival_long.csv')
+write_csv(long_df, here('data', 'processed_data', '2_survival_long.csv'))
 
 # now do the model
 survival_mod = glmer(formula = binary_survived ~ larval_density_fct + Species +
@@ -107,7 +107,7 @@ summary(survival_mod)
 
 
 tidy(survival_mod) %>%
-  write_csv('results/survival/survival_tidy.csv')
+  write_csv(here('results', 'survival', 'survival_tidy.csv'))
 
 glance(survival_mod) %>%
-  write_csv('results/survival/survival_glance.csv')
+  write_csv(here('results', 'survival', 'survival_glance.csv'))
