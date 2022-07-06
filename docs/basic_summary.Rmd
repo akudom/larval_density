@@ -2,31 +2,48 @@
 title: "Larval density dependence"
 author: "Andreas Kudom, Dave Hemprich-Bennett, Talya Hackett"
 date: "06/07/2022"
-output: word_document
+output: bookdown::html_document2
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE)
 library(tidyverse)
 library(here)
+
+# Rerun scripts
+source(here('scripts', '1_larval_growth_rates.R'))
+source(here('scripts', '2_larval_mortality.R'))       
+
 # read in formatted df
 larval_density_df <- read_csv(here('data', 'processed_data', '1_density_and_growth.csv')) 
+sp <- larval_density_df %>% pull(species) %>% unique()
 ```
 
-## Introduction
+# Introduction
+
+Andreas ran an experiment where containers had `r larval_density_df %>% pull(larval_density) %>% unique()` *Anopheles gambiae* eggs placed within them. 
+`r larval_density_df %>% pull(replicate_no) %>% unique() %>% (length)` simultaneous replicates of different larval densities were performed, over `r larval_density_df %>% pull(date_of_experiment) %>% unique() %>% length()` iterations. 
+Iterations either had `r sp[1]` or `r sp[2]` varieties used.  
+Three sets of variables were measured:  
+
+1. Number of larvae per surviving until pupation per replicate
+2. For larvae that survived until pupation, number of days between hatching and:
+    + pupation
+    + eclosion
+3. Wing length for a subset of larvae that survived until eclosion.
 
 
+# Survival rates
 
-```{r cars}
-summary(cars)
+See Figure \@ref(fig:prop-surv).
+
+```{r prop-surv, fig.cap="Proportion of larvae surviving."}
+proportion_survival_boxplot
 ```
 
-## Including Plots
+See Figure \@ref(fig:n-surv).
 
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r n-surv, fig.cap="Number of larvae surviving.", echo = F}
+number_surviving_boxplot
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
