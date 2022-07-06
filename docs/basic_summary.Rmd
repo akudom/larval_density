@@ -35,15 +35,16 @@ Three sets of variables were measured:
 
 # Survival rates
 
-See Figure \@ref(fig:prop-surv).
+Increasing the density of larvae in a container decreased the proportion of those larvae who survived (Figure \@ref(fig:prop-surv)), although the highest number of larvae survived in the containers with 60 larvae (Figure \@ref(fig:n-surv)).
 
 ```{r prop-surv, fig.cap="Proportion of larvae surviving."}
 proportion_survival_boxplot
 ```
 
-See Figure \@ref(fig:n-surv).
+
 
 ```{r n-surv, fig.cap="Number of larvae surviving.", echo = F}
 number_surviving_boxplot
 ```
+
 
