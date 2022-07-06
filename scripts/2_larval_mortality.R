@@ -9,7 +9,8 @@
 library(tidyverse)
 library(lme4)
 library(broom.mixed)
-larval_df <- read_csv('data/processed_data/1_density_and_growth.csv')
+library(here)
+larval_df <- read_csv(here('data', 'processed_data', '1_density_and_growth.csv'))
 
 str(larval_df)
 
@@ -31,7 +32,7 @@ survival_df <- larval_df %>%
          larval_density_fct = forcats::as_factor(larval_density)) %>%
          rename(Species = species)
          
-write_csv(survival_df, 'data/processed_data/2_survival_df.csv')
+write_csv(survival_df, here('data', 'processed_data', '2_survival_df.csv'))
 
 # Plot --------------------------------------------------------------------
             
@@ -46,7 +47,7 @@ proportion_survival_boxplot <- ggplot(survival_df, aes(x = larval_density_fct, y
   ylab('Proportion surviving') +
   xlab('Larval density (number of larvae per enclosure)')
 proportion_survival_boxplot
-ggsave('figures/survival/proportion_survival_boxplot.pdf', proportion_survival_boxplot)
+ggsave(here('figures', 'survival', 'proportion_survival_boxplot.pdf'), proportion_survival_boxplot)
 
 number_surviving_boxplot <- ggplot(survival_df, aes(x = larval_density_fct, y = n_survived, colour = Species)) +
   geom_boxplot() +
@@ -57,7 +58,7 @@ number_surviving_boxplot <- ggplot(survival_df, aes(x = larval_density_fct, y = 
   ylab('Number surviving') +
   xlab('Larval density (number of larvae per enclosure)')
 number_surviving_boxplot
-ggsave('figures/survival/number_surviving_boxplot.pdf', number_surviving_boxplot)
+ggsave(here('figures', 'survival', 'number_surviving_boxplot.pdf'), number_surviving_boxplot)
 
 
 

@@ -12,9 +12,10 @@ library(lmerTest)
 library(readxl)
 library(janitor)
 library(broom.mixed)
+library(here)
 
 # read in data
-input_data <- read_excel('data/raw_data/Data_density dependent.xlsx') %>% 
+input_data <- read_excel(here('data', 'raw_data', 'Data_density dependent.xlsx')) %>% 
   # remove spaces etc from column names
   clean_names() %>%
   rename(period_of_eclosion_day = period_of_adult_pupation_day) %>%
@@ -32,7 +33,7 @@ input_data <- read_excel('data/raw_data/Data_density dependent.xlsx') %>%
     date_of_experiment = as.character(date_of_experiment))
 str(input_data)
 
-write_csv(input_data, 'data/processed_data/1_density_and_growth.csv')
+write_csv(input_data, here('data', 'processed_data', '1_density_and_growth.csv'))
 
 # Summary plot -----------------------------------------------------------
 
@@ -62,7 +63,7 @@ violins <- ggplot(long_data,
   scale_colour_viridis_d() +
   ylab(element_blank()) +
   xlab('Larval density (number of larvae per enclosure)')
-ggsave(filename = 'figures/growthrates/violinplot.pdf',
+ggsave(filename = here('figures', 'growthrates', 'violinplot.pdf'),
        violins)
 
 box_plot <- ggplot(long_data, 
@@ -79,7 +80,7 @@ box_plot <- ggplot(long_data,
   xlab('Larval density (number of larvae per enclosure)')
 
 box_plot
-ggsave(filename = 'figures/growthrates/boxplot.pdf', box_plot)
+ggsave(filename = here('figures', 'growthrates', 'boxplot.pdf'), box_plot)
 
 
 # Model -------------------------------------------------------------------
@@ -128,22 +129,22 @@ qqline(resid(eclosion_model_opeibea), col = "red")
 
 # this is ugly as hell, improve it sometime Dave
 tidy(pupation_model_opeibea) %>%
-  write_csv('results/growthrates/opeibea_pupation_tidy.csv')
+  write_csv(here('results', 'growthrates', 'opeibea_pupation_tidy.csv'))
 glance(pupation_model_opeibea) %>%
-  write_csv('results/growthrates/opeibea_pupation_glance.csv')
+  write_csv(here('results', 'growthrates', 'opeibea_pupation_glance.csv'))
 
 tidy(pupation_model_kisumu) %>%
-  write_csv('results/growthrates/kisumu_pupation_tidy.csv')
+  write_csv(here('results', 'growthrates', 'kisumu_pupation_tidy.csv'))
 glance(pupation_model_kisumu) %>%
-  write_csv('results/growthrates/kisumu_pupation_glance.csv')
+  write_csv(here('results', 'growthrates', 'kisumu_pupation_glance.csv'))
 
 
 tidy(eclosion_model_opeibea) %>%
-  write_csv('results/growthrates/opeibea_eclosion_tidy.csv')
+  write_csv(here('results', 'growthrates', 'opeibea_eclosion_tidy.csv'))
 glance(eclosion_model_opeibea) %>%
-  write_csv('results/growthrates/opeibea_eclosion_glance.csv')
+  write_csv(here('results', 'growthrates', 'opeibea_eclosion_glance.csv'))
 
 tidy(eclosion_model_kisumu) %>%
-  write_csv('results/growthrates/kisumu_eclosion_tidy.csv')
+  write_csv(here('results', 'growthrates', 'kisumu_eclosion_tidy.csv'))
 glance(eclosion_model_kisumu) %>%
-  write_csv('results/growthrates/kisumu_eclosion_glance.csv')
+  write_csv(here('results', 'growthrates', 'kisumu_eclosion_glance.csv'))
