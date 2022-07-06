@@ -47,4 +47,22 @@ proportion_survival_boxplot
 number_surviving_boxplot
 ```
 
+This data was analysed using a binomial generalised linear mixed-effects model, using the formula:   
+*`r format(formula(survival_mod))`*.  
+Or, in something closer to plain english:  
+*survival (a binary variable) ~ larval density + larval 'species' + (1 | container)*  
+Where larval density is being treated as a categorical variable.  
+
+The model gave the following values (Table \@ref(tab:tidy-surv))
+```{r tidy-surv, echo= F}
+tidy(survival_mod) %>%
+  knitr::kable(caption = 'tidy model' )
+```
+
+And the following confidence values
+
+```{r glance-surv, echo = F}
+glance(survival_mod) %>%
+  knitr::kable(caption = 'glance model' )
+```
 
