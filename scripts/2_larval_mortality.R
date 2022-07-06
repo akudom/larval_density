@@ -45,7 +45,7 @@ proportion_survival_boxplot <- ggplot(survival_df, aes(x = larval_density_fct, y
         text = element_text(size = 20)) +
   scale_colour_viridis_d() +
   ylab('Proportion surviving') +
-  xlab('Larval density (number of larvae per enclosure)')
+  xlab('Larval density (number of larvae per container)')
 proportion_survival_boxplot
 ggsave(here('figures', 'survival', 'proportion_survival_boxplot.pdf'), proportion_survival_boxplot)
 
@@ -56,7 +56,7 @@ number_surviving_boxplot <- ggplot(survival_df, aes(x = larval_density_fct, y = 
         text = element_text(size = 20)) +
   scale_colour_viridis_d() +
   ylab('Number surviving') +
-  xlab('Larval density (number of larvae per enclosure)')
+  xlab('Larval density (number of larvae per container)')
 number_surviving_boxplot
 ggsave(here('figures', 'survival', 'number_surviving_boxplot.pdf'), number_surviving_boxplot)
 
