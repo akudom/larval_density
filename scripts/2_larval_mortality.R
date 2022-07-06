@@ -9,7 +9,7 @@
 library(tidyverse)
 library(lme4)
 library(broom.mixed)
-larval_df <- read_csv('data/processed_data/density_and_growth.csv')
+larval_df <- read_csv('data/processed_data/1_density_and_growth.csv')
 
 str(larval_df)
 
@@ -31,7 +31,7 @@ survival_df <- larval_df %>%
          larval_density_fct = forcats::as_factor(larval_density)) %>%
          rename(Species = species)
          
-
+write_csv(survival_df, 'data/processed_data/2_survival_df.csv')
 
 # Plot --------------------------------------------------------------------
             
@@ -95,7 +95,7 @@ long_df <- bind_rows(larval_list) %>%
   mutate(binary_survived = ifelse(survival == 'survived', 1, 0),
          grouping_var = paste(date_of_experiment, replicate_no, sep = '_'))
 
-
+write_csv(long_df, 'data/processed_data/2_survival_long.csv')
 
 # now do the model
 survival_mod = glmer(formula = binary_survived ~ larval_density_fct + Species +

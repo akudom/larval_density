@@ -32,7 +32,7 @@ input_data <- read_excel('data/raw_data/Data_density dependent.xlsx') %>%
     date_of_experiment = as.character(date_of_experiment))
 str(input_data)
 
-write_csv(input_data, 'data/processed_data/density_and_growth.csv')
+write_csv(input_data, 'data/processed_data/1_density_and_growth.csv')
 
 # Summary plot -----------------------------------------------------------
 
