@@ -53,16 +53,108 @@ Or, in something closer to plain english:
 *survival (a binary variable) ~ larval density + larval 'species' + (1 | container)*  
 Where larval density is being treated as a categorical variable.  
 
-The model gave the following values (Table \@ref(tab:tidy-surv))
+The model gave the following values (Table \@ref(tab:tidy-surv)).  
 ```{r tidy-surv, echo= F}
 tidy(survival_mod) %>%
   knitr::kable(caption = 'tidy model' )
 ```
 
-And the following confidence values
+And the following confidence values (Table \@ref(tab:glance-surv)).
 
 ```{r glance-surv, echo = F}
 glance(survival_mod) %>%
   knitr::kable(caption = 'glance model' )
 ```
+
+
+
+
+# Larval growth-rates
+For both species, exploratory plotting showed that an increase in larval density increased the length of time until both pupation and eclosion (Figure \@ref(fig:growth-box)).  <br>
+```{r growth-box, fig.cap="Larval growth-rates", echo = F, warning=F}
+box_plot
+```
+
+Analysing this data was more difficult as controlling for 'species' in a model by allowing a random slope per-species led to a singular fit. As such, rather than running two models (one for 'time to pupation' and one for 'time to eclosion') with species being included as a factor, we settled for running four models, with each species getting two models. So for each species we have:  
+
+1. days until pupation ~ larval density + (1 | container)
+2. days until eclosion ~ larval density + (1 | container)
+
+## Time until pupation  
+This used the formula:   
+*`r format(formula(pupation_model_kisumu))`*.  
+Or, in something closer to plain english:  
+*Time until pupation ~ larval density + (1 | container)*  
+with this model being ran twice: once per-species.  
+
+### Kisumu
+
+This gave the following values for the species 'Kisumu' (Table \@ref(tab:tidy-k-pup)).  
+```{r tidy-k-pup, echo= F}
+tidy(pupation_model_kisumu) %>%
+  knitr::kable(caption = 'tidy model for Kisumu pupation' )
+```
+
+And the following confidence values (Table \@ref(tab:glance-k-pup)).
+
+```{r glance-k-pup, echo = F}
+glance(pupation_model_kisumu) %>%
+  knitr::kable(caption = 'glance model for Kisumu pupation' )
+```
+
+
+### Opeibea
+
+This gave the following values for the species 'Opeibea' (Table \@ref(tab:tidy-o-pup)).  
+```{r tidy-o-pup, echo= F}
+tidy(pupation_model_opeibea) %>%
+  knitr::kable(caption = 'tidy model for Opeibea pupation' )
+```
+
+And the following confidence values (Table \@ref(tab:glance-o-pup)).
+
+```{r glance-o-pup, echo = F}
+glance(pupation_model_opeibea) %>%
+  knitr::kable(caption = 'glance model for Opeibea pupation' )
+```
+
+
+## Time until eclosion  
+This used the formula:   
+*`r format(formula(eclosion_model_kisumu))`*.  
+Or, in something closer to plain english:  
+*Time until eclosion ~ larval density + (1 | container)*  
+with this model being ran twice: once per-species.  
+
+### Kisumu
+
+This gave the following values for the species 'Kisumu' (Table \@ref(tab:tidy-k-ecl)).  
+```{r tidy-k-ecl, echo= F}
+tidy(eclosion_model_kisumu) %>%
+  knitr::kable(caption = 'tidy model for Kisumu eclosion' )
+```
+
+And the following confidence values (Table \@ref(tab:glance-k-ecl)).
+
+```{r glance-k-ecl, echo = F}
+glance(eclosion_model_kisumu) %>%
+  knitr::kable(caption = 'glance model for Kisumu eclosion' )
+```
+
+
+### Opeibea
+
+This gave the following values for the species 'Opeibea' (Table \@ref(tab:tidy-o-ecl)).  
+```{r tidy-o-ecl, echo= F}
+tidy(eclosion_model_opeibea) %>%
+  knitr::kable(caption = 'tidy model for Opeibea eclosion' )
+```
+
+And the following confidence values (Table \@ref(tab:glance-o-ecl)).
+
+```{r glance-o-ecl, echo = F}
+glance(eclosion_model_opeibea) %>%
+  knitr::kable(caption = 'glance model for Opeibea eclosion' )
+```
+
 
