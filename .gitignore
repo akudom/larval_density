@@ -6,4 +6,7 @@ data/*
 *pdf
 *jpeg
 results/*
-.DS_Store
+*.DS_Store
+*.html
+*.doc
+*.docx
