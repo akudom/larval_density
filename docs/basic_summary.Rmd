@@ -2,7 +2,9 @@
 title: "Larval density dependence"
 author: "Andreas Kudom, Dave Hemprich-Bennett, Talya Hackett"
 date: "06/07/2022"
-output: bookdown::html_document2
+output: 
+  bookdown::html_document2: default
+  bookdown::word_document2: default  # for cross-references
 ---
 
 ```{r setup, include=FALSE}
