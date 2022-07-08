@@ -10,6 +10,7 @@
 library(tidyverse)
 library(here)
 library(readxl)
+library(broom)
 
 if(!dir.exists(here('figures'))){
   dir.create(here('figures'))
@@ -25,6 +26,7 @@ if(!dir.exists(here('results', 'wing_size'))){
   dir.create(here('results', 'wing_size'))
 }
 
+# read in command for uniform ggplot formatting
 source(here('scripts', 'ggplot_formatting.R'))
 
 wingsize_df <- read_csv(here('data', 'raw_data', 'wing_data_tidied.csv'))
@@ -75,3 +77,29 @@ larval_summary_stats <- wingsize_longformat %>%
 
 write_csv(larval_summary_stats, 
           file = here('results', 'wing_size', 'wing_size_summary_stats.csv'))
+
+
+
+# ANOVA -------------------------------------------------------------------
+
+# guide at http://www.sthda.com/english/wiki/one-way-anova-test-in-r
+
+# run the anova
+wing_aov <- aov(winglength_um ~ larval_density, data = wingsize_longformat)
+
+# show anova summary
+summary(wing_aov)
+
+# show Tukey multiple-pairwise comparisons
+TukeyHSD(wing_aov)
+
+
+# save the above stats in a pair of csvs
+tidy(wing_aov) %>%
+  write_csv(x = ., 
+            file = here('results', 'wing_size', 'aov.csv'))
+
+TukeyHSD(wing_aov) %>%
+  tidy() %>%
+  write_csv(x = ., 
+            file = here('results', 'wing_size', 'tukey.csv'))
