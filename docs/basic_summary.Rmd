@@ -12,7 +12,8 @@ library(here)
 
 # Rerun scripts
 source(here('scripts', '1_larval_growth_rates.R'))
-source(here('scripts', '2_larval_mortality.R'))       
+source(here('scripts', '2_larval_mortality.R'))
+source(here('scripts', '3_wing_size.R'))
 
 # read in formatted df
 larval_density_df <- read_csv(here('data', 'processed_data', '1_density_and_growth.csv')) 
@@ -153,4 +154,19 @@ glance(eclosion_model_opeibea) %>%
   knitr::kable(caption = 'glance model for Opeibea eclosion' )
 ```
 
+
+# Larval density and wing length
+
+Wing length was measured for a subset of the adult mosquitoes, showing a decrease in wing length when they were kept in containers with a greater larval density (See Table \@ref(tab:winglength-summary) and Figure \@ref(fig:winglength-boxplot))
+
+```{r winglength-summary}
+larval_summary_stats %>%
+  mutate(`Mean winglength (um)` = round(`Mean winglength (um)`, 1),
+            `Winglength standard deviation` = round(`Winglength standard deviation`, 1)) %>%
+  knitr::kable(caption = 'Basic summary statistics of the adult mosquito wing lengths. Mean and s.d. shown rounded to 1 decimal place.')
+```
+
+```{r winglength-boxplot, fig.cap= 'Boxplot of the wing length of adult mosquitoes kept at various larval densities'}
+wingsize_boxplot
+```
 
