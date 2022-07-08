@@ -12,7 +12,8 @@ library(broom.mixed)
 library(here)
 larval_df <- read_csv(here('data', 'processed_data', '1_density_and_growth.csv'))
 
-str(larval_df)
+# read in command for uniform ggplot formatting
+source(here('scripts', 'ggplot_formatting.R'))
 
 survival_df <- larval_df %>%
   # remove any rows where theres an NA on the eclosion
@@ -40,9 +41,7 @@ write_csv(survival_df, here('data', 'processed_data', '2_survival_df.csv'))
 
 proportion_survival_boxplot <- ggplot(survival_df, aes(x = larval_density_fct, y = proportion_survival, colour = Species)) +
   geom_boxplot() +
-  theme_bw() +
-  theme(legend.position = 'bottom',
-        text = element_text(size = 20)) +
+  larval_density_theme +
   scale_colour_viridis_d() +
   ylab('Proportion surviving') +
   xlab('Larval density (number of larvae per container)')
@@ -51,9 +50,7 @@ ggsave(here('figures', 'survival', 'proportion_survival_boxplot.pdf'), proportio
 
 number_surviving_boxplot <- ggplot(survival_df, aes(x = larval_density_fct, y = n_survived, colour = Species)) +
   geom_boxplot() +
-  theme_bw() +
-  theme(legend.position = 'bottom',
-        text = element_text(size = 20)) +
+  larval_density_theme + 
   scale_colour_viridis_d() +
   ylab('Number surviving') +
   xlab('Larval density (number of larvae per container)')

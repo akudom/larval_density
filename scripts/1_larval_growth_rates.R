@@ -14,6 +14,10 @@ library(janitor)
 library(broom.mixed)
 library(here)
 
+# read in command for uniform ggplot formatting
+source(here('scripts', 'ggplot_formatting.R'))
+
+
 # read in data
 input_data <- read_excel(here('data', 'raw_data', 'Data_density dependent.xlsx')) %>% 
   # remove spaces etc from column names
@@ -55,11 +59,9 @@ violins <- ggplot(long_data,
                   aes(x = larval_density, y = value, colour = Species))+ 
   geom_violin() + 
   facet_wrap(. ~ stat_type, strip.position = 'left') + 
-  theme_bw() +
-  theme(legend.position = 'bottom',
-        strip.background = element_blank(),
-        strip.placement = "outside",
-        text = element_text(size = 20)) +
+  larval_density_theme +
+  theme(strip.background = element_blank(),
+        strip.placement = "outside") +
   scale_colour_viridis_d() +
   ylab(element_blank()) +
   xlab('Larval density (number of larvae per enclosure)')
@@ -70,11 +72,9 @@ box_plot <- ggplot(long_data,
                   aes(x = factor(larval_density), y = value, colour = Species))+ 
   geom_boxplot() +
   facet_wrap(. ~ stat_type, strip.position = 'left') + 
-  theme_bw() +
-  theme(legend.position = 'bottom',
-        strip.background = element_blank(),
-        strip.placement = "outside",
-        text = element_text(size = 20)) +
+  larval_density_theme +
+  theme(strip.background = element_blank(),
+        strip.placement = "outside") +
   scale_colour_viridis_d() +
   ylab(element_blank()) +
   xlab('Larval density (number of larvae per enclosure)')

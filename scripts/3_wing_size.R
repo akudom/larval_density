@@ -25,6 +25,8 @@ if(!dir.exists(here('results', 'wing_size'))){
   dir.create(here('results', 'wing_size'))
 }
 
+source(here('scripts', 'ggplot_formatting.R'))
+
 wingsize_df <- read_csv(here('data', 'raw_data', 'wing_data_tidied.csv'))
 
 # when creating some summary statistics and plots, it's easier for the
@@ -53,7 +55,8 @@ wingsize_longformat <- wingsize_df %>%
 
 wingsize_boxplot <- ggplot(wingsize_longformat, aes(x = larval_density,
                                 y = winglength_um)) +
-  geom_boxplot()
+  geom_boxplot()+
+  larval_density_theme
 
 wingsize_boxplot
 
