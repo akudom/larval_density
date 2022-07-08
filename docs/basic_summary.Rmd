@@ -170,3 +170,16 @@ larval_summary_stats %>%
 wingsize_boxplot
 ```
 
+A one-way ANOVA was ran on this dataset, showing that there was a significant effect of larval density on adult wing length. For the overall model F =  `r tidy(wing_aov)$statistic[1] %>% round(., 2)` and p = `r ifelse(tidy(wing_aov)$p.value[1]  < 0.001, '<0.001', tidy(wing_aov)$p.value[1])`,  see Table \@ref(tab:aov-output). 
+
+```{r aov-output}
+tidy(wing_aov) %>%
+  knitr::kable(caption = 'ANOVA output')
+```
+Tukey's HSD test was ran on the ANOVA model, showing that there was a significant difference between the 10L treatment and both other treatments, but not between 60L and 200L (\@ref(tab:tukey-output)).
+```{r tukey-output}
+TukeyHSD(wing_aov) %>%
+  tidy() %>%
+  knitr::kable(caption = 'Tukeys HSD output')
+```
+
