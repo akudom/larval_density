@@ -54,11 +54,12 @@ wingsize_longformat <- wingsize_df %>%
 
 # Plot --------------------------------------------------------------------
 
-
 wingsize_boxplot <- ggplot(wingsize_longformat, aes(x = larval_density,
                                 y = winglength_um)) +
   geom_boxplot()+
-  larval_density_theme
+  larval_density_theme +
+  xlab('Larval density (number of larvae per container)') + 
+  ylab(expression(paste('Wing length (', mu, 'm)')))
 
 wingsize_boxplot
 
@@ -70,7 +71,7 @@ ggsave(filename = here('figures', 'wing_size', 'wing_size_boxplot.pdf'),
 
 larval_summary_stats <- wingsize_longformat %>%
   group_by(larval_density) %>%
-  summarise(`Number of samples` = n(),
+  summarise(`Number of samples measured` = n(),
             `Mean winglength (um)` = mean(winglength_um),
             `Winglength standard deviation` = sd(winglength_um)) %>%
   rename(`Larval density` = larval_density)
